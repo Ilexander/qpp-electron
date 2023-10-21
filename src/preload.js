@@ -17,9 +17,9 @@ contextBridge.exposeInMainWorld("electron", {
 
   getFiles: async (dir = "saves") => {
     const files = await Promise.all(
-      fs.readdirSync(path.join(__dirname, dir)).map(async (file) => {
+      fs.readdirSync(path.join(dir)).map(async (file) => {
         const data = await new Promise((resolve) => {
-          fs.stat(path.join(__dirname, dir + "/" + file), (err, stats) => {
+          fs.stat(path.join(dir + "/" + file), (err, stats) => {
             if (err?.code) return null;
             const { mtime, ctime, size } = stats;
 
@@ -42,12 +42,12 @@ contextBridge.exposeInMainWorld("electron", {
     return files;
   },
   createFile(pathToDir, name, type) {
-    const readyPath = path.join(__dirname, "saves/" + pathToDir, name + `.${type}`);
+    const readyPath = path.join("saves/" + pathToDir, name + `.${type}`);
     fs.writeFileSync(readyPath, "");
   },
 
   createDir(pathToDir, dirname) {
-    const readyPath = path.join(__dirname, "saves/" + pathToDir, dirname);
+    const readyPath = path.join("saves/" + pathToDir, dirname);
     fs.mkdirSync(readyPath);
   },
 });

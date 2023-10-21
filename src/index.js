@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, remote } = require("electron");
+const { app, BrowserWindow, ipcMain, Notification } = require("electron");
 const path = require("path");
 const { electron } = require("process");
 const fs = require("fs");
@@ -87,18 +87,27 @@ const createWindow = () => {
     mainWindow.minimize();
   });
 
-  fs.stat(__dirname + "/saves", async (e) => {
+  new Notification({
+    title: "test",
+    body: __dirname,
+  }).show();
+
+  fs.stat("/saves", async (e) => {
     if (!e) return;
 
     if (e?.code === "ENOENT") {
-      fs.mkdir(path.join(__dirname, "saves"), (err) => {
+      fs.mkdir(path.join("saves"), (err) => {
         if (err) {
+          new Notification({
+            title: "error",
+            body: err,
+          }).show();
           return console.error(err);
         }
 
         initialFiles.forEach((el) => {
           fs.writeFileSync(
-            path.join(__dirname, `saves/${el.name}.${el.type}`),
+            path.join(`saves/${el.name}.${el.type}`),
             el.text.replaceAll("    ", "")
           );
         });
