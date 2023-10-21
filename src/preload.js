@@ -41,6 +41,10 @@ contextBridge.exposeInMainWorld("electron", {
 
     return files;
   },
+  createFile(pathToDir, name, type) {
+    const readyPath = path.join(__dirname, "saves/" + pathToDir, name + `.${type}`);
+    fs.writeFileSync(readyPath, "");
+  },
 
   createDir(pathToDir, dirname) {
     const readyPath = path.join(__dirname, "saves/" + pathToDir, dirname);
