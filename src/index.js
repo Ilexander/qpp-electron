@@ -87,21 +87,12 @@ const createWindow = () => {
     mainWindow.minimize();
   });
 
-  new Notification({
-    title: "test",
-    body: __dirname,
-  }).show();
-
   fs.stat("/saves", async (e) => {
     if (!e) return;
 
     if (e?.code === "ENOENT") {
       fs.mkdir(path.join("saves"), (err) => {
         if (err) {
-          new Notification({
-            title: "error",
-            body: err,
-          }).show();
           return console.error(err);
         }
 
